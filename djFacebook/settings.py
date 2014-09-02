@@ -36,7 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bootstrap-twitter'
+    'twitter_bootstrap',
     'jquery',
     'fb'
 )
@@ -69,7 +69,7 @@ DATABASES = {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'django',
         'USER': 'root',
-        'PASSWORD': '123456',
+        'PASSWORD': '',
         'HOST': '127.0.0.1'
     }
 }
