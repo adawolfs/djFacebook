@@ -1,0 +1,8 @@
+{% extends "template.html" %}
+{% block body %} 
+<p>URL of this page: {{ request.path }}</p>
+<div class="fb-login-button" data-max-rows="1" data-size="icon" data-show-faces="true" data-auto-logout-link="false"></div>
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>
+<a href="{{ request.path }}">likn to index</a>
+{% endblock %} 

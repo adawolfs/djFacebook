@@ -1,0 +1,56 @@
+<html>
+	<head>
+		{% load staticfiles %}
+		<script type="text/javascript" src="{% static "js/jquery.js" %}"></script>
+		<script type="text/javascript">
+			var pagePath	 = '{{ request.path }}';
+			function getCookie(name) {
+				    var cookieValue = null;
+				    if (document.cookie && document.cookie != '') {
+				        var cookies = document.cookie.split(';');
+				        for (var i = 0; i < cookies.length; i++) {
+				            var cookie = $.trim(cookies[i]);
+				            // Does this cookie string begin with the name we want?
+				            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+				                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				                break;
+				            }
+				        }
+				    }
+				    return cookieValue;
+				}
+				var csrftoken = getCookie('csrftoken');
+				function csrfSafeMethod(method) {
+				    // these HTTP methods do not require CSRF protection
+				    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+				}
+				$.ajaxSetup({
+				    beforeSend: function(xhr, settings) {
+				        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+				            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+				        }
+				    }
+				});
+		</script>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script type="text/javascript" src="{% static "js/fython.js" %}"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$.ajaxSetup({ cache: true });
+				$.getScript('//connect.facebook.net/es_LA/all.js', function(){
+					FB.init({
+			      	appId: '377378119077219',
+			      	xfbml:1,
+			      	version: 'v2.0',
+		    	});     
+			    	$('#loginbutton,#feedbutton').removeAttr('disabled');
+			    	//FB.getLoginStatus(updateStatusCallback);
+			  	});
+			});
+		</script>
+	</head>
+	<body>
+
+	{% block body %}{% endblock %}
+	</body>
+</html>
