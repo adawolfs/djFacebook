@@ -48,12 +48,16 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 )
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     'django.core.context_processors.request',
+    'django.core.context_processors.csrf'
+    'django.template.RequestContext.*'
+
 )
 
 ROOT_URLCONF = 'djFacebook.urls'
@@ -69,7 +73,7 @@ DATABASES = {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'django',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': '123456',
         'HOST': '127.0.0.1'
     }
 }

@@ -7,5 +7,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('fb.views',
     (r'^admin/', include(admin.site.urls)),
-    (r'^index/',"main"),
+    url(r'^$', "main", name="home"),
+    (r'^login/$',"login"),
+    (r'^logout/$',"logout"),
+    (r'^test',"test"),
 ) 
