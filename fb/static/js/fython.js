@@ -26,6 +26,7 @@ function statusChangeCallback(response) {
   // app know the current login status of the person.
   // Full docs on the response object can be found in the documentation
   // for FB.getLoginStatus().
+
   if (response.status === 'connected') {
     // Logged into your app and Facebook. 
     logon();
@@ -42,58 +43,41 @@ function statusChangeCallback(response) {
 }
 
 function logon(){
+  console.log('logon')
   FB.login(function(response){
-    // Handle the response object, like in statusChangeCallback() in our demo
-    // code.
     console.log('statusChangeCallback');
-    console.log(response);
-    // The response object is returned with a status field that lets the
-    // app know the current login status of the person.
-    // Full docs on the response object can be found in the documentation
-    // for FB.getLoginStatus().
-    if (response.status === 'connected') {
-    // Logged into your app and Facebook.
-      FB.api('/me', function(response) {
-        console.log(JSON.stringify(response))
-        sendPOS(JSON.stringify(response))
-      });
-      JSON.stringify(response);
- 
-    } else if (response.status === 'not_authorized') {
-    // The person is logged into Facebook, but not your app.
-      //document.getElementById('status').innerHTML = 'Please log ' +
-      //'into this app.';
-    } else {
-    // The person is not logged into Facebook, so we're not sure if
-    // they are logged into this app or not.
-      //document.getElementById('status').innerHTML = 'Please log ' +
-      //'into Facebook.';
+    console.log(response)
+    if (response.authResponse) {
+      var accessToken = response.authResponse.accessToken;
+      console.log(accessToken)
+      $.cookie('fb_access_token', '', $.extend({}, '', { expires: -1, path:'/'}));
+      $.cookie('fb_access_token', accessToken);
+      setTimeout(function() {
+        window.location="/login/"
+      }, 2000);
     }
   });
 } 
 
-function logout(){
-  FB.logout()
-  window.location='/logout'
+function logoff(){
+  //FB.logout()
+  console.log('logoff')
+  $.cookie('fb_access_token', '', $.extend({}, '', { expires: -1,path:'/'}));
+  window.location="/logout/"
 }
 
-function getImage(){
-  FB.api(
-    "/me/picture",
-    {
-      "redirect": false,
-      "height": "50",
-      "type": "normal",
-      "width": "50"
-    },
-    function (response) {
-      console.log(response)
-      if (response && !response.error) {
-        console.log('aqui')
-        
-      //return JSON.stringify(response.data);
-        $('.circular').css('background-image', 'url(' + response.data.url + ')');
-      }
-    }
-  );
-}
+function fqlQuery(){
+         FB.api('/me', function(response) {
+              var query = FB.Data.query('select name,email,hometown_location, sex, pic_square from user where uid={0}', response.id);
+              query.wait(function(rows) {
+                uid = rows[0].uid;
+                document.getElementById('name').innerHTML =
+                  'Your name: ' + rows[0].name + "<br />" +
+                  'Your email: ' + rows[0].email + "<br />" +
+                  'Your hometown_location: ' + rows[0].hometown_location + "<br />" +
+                  'Your sex: ' + rows[0].sex + "<br />" +
+                  'Your uid: ' + rows[0].uid + "<br />" +
+                  '<img src="' + rows[0].pic_square + '" alt="" />' + "<br />";
+              });
+         });
+     }

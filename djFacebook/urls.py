@@ -5,6 +5,10 @@ from django.conf.urls.static import static
 from django.contrib import admin
 admin.autodiscover()
 
+urlpatterns = patterns('',
+    url(r'^admin/', include(admin.site.urls)),
+)
+
 urlpatterns = patterns('fb.views',
     (r'^admin/', include(admin.site.urls)),
     url(r'^$', "main", name="home"),

@@ -1,9 +1,12 @@
 {% extends "template.html" %}
 {% block body %} 
-<h1>{{request.session.userName}} {{request.session.login}}</h1>
-<div class="fb-login-button" data-max-rows="1" data-size="icon" data-show-faces="true" data-auto-logout-link="false"></div>
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-</fb:login-button>
-<a href="{{ request.path }}">likn to index</a>
-
+<h1></h1>
+<div
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true">
+</div>
+<a href="#" onclick="fqlQuery();">link</a>
+<div id='name'></div>
 {% endblock %} 
